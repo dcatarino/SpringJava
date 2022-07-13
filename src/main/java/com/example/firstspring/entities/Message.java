@@ -1,5 +1,8 @@
 package com.example.firstspring.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,9 +20,12 @@ public class Message implements Serializable {
 
 
     private String text;
+
+    //@JsonFormat(shape = JsonFormat.Shape.STRING) fazer dps
     private Instant date;
 
 
+    @JsonIgnore //used to avoid multiple calls on jsons, um fica a chamar um e outro ficar a chamar o outro
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
