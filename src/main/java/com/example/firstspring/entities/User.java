@@ -28,9 +28,9 @@ public class User implements Serializable {
     private String name;
 
 
-
-    @OneToMany(mappedBy = "sender")
-    private List<Message> messages = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public User() {
 
@@ -43,8 +43,8 @@ public class User implements Serializable {
 
 
 
-    public List<Message> getMessages() {
-        return messages;
+    public List<Order> getOrders() {
+        return orders;
     }
 
     public int getuserId() {

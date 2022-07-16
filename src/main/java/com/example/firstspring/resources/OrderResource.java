@@ -1,8 +1,8 @@
 package com.example.firstspring.resources;
 
 
-import com.example.firstspring.entities.User;
-import com.example.firstspring.services.UserService;
+import com.example.firstspring.entities.Order;
+import com.example.firstspring.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,22 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/orders")
+public class OrderResource {
 
     @Autowired
-    private UserService service;
+    private OrderService service;
 
-    // getmapping paRa reperesentar que isto é um GET http
+    // getmapping para reperesentar que isto é um GET http
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<Order>> findAll() {
+        List<Order> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable int id) {
-        User user = service.findById(id);
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<Order> findById(@PathVariable int id) {
+        Order Order = service.findById(id);
+        return ResponseEntity.ok().body(Order);
     }
 }
