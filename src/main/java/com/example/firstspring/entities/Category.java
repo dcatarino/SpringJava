@@ -21,11 +21,7 @@ public class Category implements Serializable {
 
 
     //o many to many no spring cria uma tabela à parte, para nao poluir as tabelas principais, faz sentido
-    @ManyToMany
-    @JoinTable(name = "tb_category_product",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
 
@@ -35,6 +31,18 @@ public class Category implements Serializable {
 
     public Category(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
     }
 
     public String getName() {

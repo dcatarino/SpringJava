@@ -23,4 +23,9 @@ public class OrderService {
         return obj.get();
     }
 
+    public List<Order> findByClientId() {
+        return repository.findByClientID();
+    }
+
+
 }

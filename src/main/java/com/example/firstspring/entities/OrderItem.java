@@ -36,6 +36,13 @@ public class OrderItem implements Serializable {
     }
 
 
+    public OrderItemPK getId() {
+        return id;
+    }
+
+    public void setId(OrderItemPK id) {
+        this.id = id;
+    }
 
     public Order getOrder() {
         return id.getOrder();

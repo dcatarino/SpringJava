@@ -3,9 +3,7 @@ package com.example.firstspring.entities;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Product implements Serializable {
@@ -24,7 +22,11 @@ public class Product implements Serializable {
 
 
     //o many to many no spring cria uma tabela à parte, para nao poluir as tabelas principais, faz sentido
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany
+    @JoinTable(name = "tb_category_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private Set<Category> categories = new HashSet<>();
 
 
@@ -32,20 +34,29 @@ public class Product implements Serializable {
 
     }
 
-    public Product(int id, String name, String description, double price) {
-        this.id = id;
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+
+    /*public Product(String name, String description, double price, List<Category> categoryList) {
         this.name = name;
         this.description = description;
         this.price = price;
-    }
+        this.categories = new HashSet<>(categoryList);
+    }*/
 
-    public Product(String name, String description, double price) {
+    public Product(String name, String description, double price, List<Category> categoryList) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.categories = new HashSet<>(categoryList);
+
     }
 
-    public int getId() {
+
+
+    public Integer getId() {
         return id;
     }
 
