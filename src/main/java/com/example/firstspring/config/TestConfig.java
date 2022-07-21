@@ -34,6 +34,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -59,8 +62,6 @@ public class TestConfig implements CommandLineRunner {
 
         categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-
-
         Product p1 = new Product("The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, List.of(c3));
         Product p2 = new Product("Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, List.of(c1));
         Product p3 = new Product("Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, List.of(c1));
@@ -68,19 +69,19 @@ public class TestConfig implements CommandLineRunner {
         Product p5 = new Product( "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, List.of(c2));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-
-        /*p1.getCategories().add(c3);
-        p2.getCategories().add(c1);
-        p3.getCategories().add(c1);
-        p4.getCategories().add(c1);*/
-
-
-
-        /*OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
         OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
         OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
-        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));*/
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
+        Payment pay1 = new Payment(Instant.now(), o1);
+        Payment pay2 = new Payment(Instant.now(), o2);
+
+
+        //paymentRepository.saveAll(Arrays.asList(pay1, pay2)); // NÃO GUARDA A PAYMENT.SAVEALL NA BASE DE DADOS, N FUNCIONA ASSIM NO 1-1
+        o1.setPayment(pay1); // nas relaçoes 1-1 têm de ser assim
+        o2.setPayment(pay2);
+        orderRepository.saveAll(Arrays.asList(o1, o2));
     }
 }

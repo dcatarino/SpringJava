@@ -1,5 +1,7 @@
 package com.example.firstspring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class Product implements Serializable {
 
 
     //o many to many no spring cria uma tabela à parte, para nao poluir as tabelas principais, faz sentido
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "tb_category_product",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -29,22 +32,15 @@ public class Product implements Serializable {
     )
     private Set<Category> categories = new HashSet<>();
 
+   // @JsonIgnore
+    @OneToMany(mappedBy = "id.product") // id vem da classe orderitem e .product vem o product que tem na classe order item
+    private Set<OrderItem> items = new HashSet<>();
+
+
 
     public Product() {
 
     }
-
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-
-    /*public Product(String name, String description, double price, List<Category> categoryList) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.categories = new HashSet<>(categoryList);
-    }*/
 
     public Product(String name, String description, double price, List<Category> categoryList) {
         this.name = name;
@@ -54,7 +50,19 @@ public class Product implements Serializable {
 
     }
 
+    @JsonIgnore
+    public Set<Order> getOrders () {
+        Set<Order> orders = new HashSet<>();
 
+        for (OrderItem orderItem : items) {
+            orders.add(orderItem.getOrder());
+        }
+        return orders;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
 
     public Integer getId() {
         return id;

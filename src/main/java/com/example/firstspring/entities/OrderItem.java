@@ -1,8 +1,8 @@
 package com.example.firstspring.entities;
 
 import com.example.firstspring.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serial;
@@ -14,14 +14,10 @@ public class OrderItem implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-
     @EmbeddedId // isto serve para PK compostos de mais que um elemento
     private OrderItemPK id;
-
     private Integer quantity;
     private Double price;
-
-
 
     public OrderItem() {
 
@@ -36,14 +32,13 @@ public class OrderItem implements Serializable {
     }
 
 
-    public OrderItemPK getId() {
-        return id;
+    public Double subTotal() {
+        return quantity * price;
     }
 
-    public void setId(OrderItemPK id) {
-        this.id = id;
-    }
 
+
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
@@ -52,6 +47,8 @@ public class OrderItem implements Serializable {
         id.setOrder(order);
     }
 
+
+    //@JsonIgnore
     public Product getProduct() {
         return id.getProduct();
     }

@@ -13,15 +13,20 @@ import java.util.Set;
 @Table(name = "app_order")
 public class Order implements Serializable {
     @Serial
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private Instant date;
 
     private Integer orderStatus;
+
+    //neste caso o cascade serve para o payment e o order tem o mesmo ID, ou seja o payment com id 5 está associado à order com ID 5
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
 
 
     @ManyToOne
@@ -30,7 +35,7 @@ public class Order implements Serializable {
 
 
     @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> items = new HashSet<>();
+    private final Set<OrderItem> items = new HashSet<>();
 
 
     public Order() {
@@ -55,8 +60,17 @@ public class Order implements Serializable {
         this.orderStatus = status.getCode();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public Double total() {
+        double result = 0.0;
+
+        for (OrderItem orderItem : items) {
+            result += orderItem.subTotal();
+        }
+        return result;
     }
 
 
@@ -80,7 +94,15 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public Set<OrderItem> getItems() {
+    public Set<OrderItem> getOrders() {
         return items;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 }
