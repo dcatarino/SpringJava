@@ -31,4 +31,15 @@ public class UserService {
         repository.deleteById(id);
     }
 
+    public User update(Integer id, User object) {
+        // getone e getbyid deprecated
+        User entity = repository.getReferenceById(id);
+        updateData(entity, object);
+        return repository.save(entity);
+
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+    }
 }

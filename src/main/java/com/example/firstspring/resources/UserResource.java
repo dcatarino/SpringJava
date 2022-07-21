@@ -49,4 +49,11 @@ public class UserResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping(value = "/{id}")
+    //path variable é a variavel do url no link e o object é o body da mensagem
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User object) {
+        object = service.update(id, object);
+        return ResponseEntity.ok().body(object);
+    }
 }
